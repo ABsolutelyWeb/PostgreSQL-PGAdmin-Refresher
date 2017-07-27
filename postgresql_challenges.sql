@@ -2,7 +2,7 @@
 --	This is basically a refresher on PostgreSQL and PGAdmin (mostly queries). Queries progressively get more
 --  difficult.
 
--- NOTE: All database(s) and table(s) information / schema is stored in the dvdrental.tar file.
+-- NOTE: All database(s) and table(s) information / schema is stored in the database.tar file.
 
 -- 1. Given a table "customer" with fields "first_name," "last_name," and "email," find the first and last names 
 --    of every customer and their email address.
@@ -11,7 +11,7 @@
 			FROM customer;
 			
 			
--- 2. Given the database from dvdrental.tar, print out the distinct types of ratings (PG, PG13, R, NC-17, etc.) 
+-- 2. Given the database from database.tar, print out the distinct types of ratings (PG, PG13, R, NC-17, etc.) 
 --	  the movies have.
 
 			SELECT DISTINCT rating 
