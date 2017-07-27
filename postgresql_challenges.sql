@@ -176,4 +176,114 @@
 			WHERE title LIKE '%Truman%';
 			
 			
---- 24. 
+--- 24. Find the average payment and format it properly with a $ sign.
+
+			SELECT CONCAT('$', ROUND(AVG(amount), 2)) AS "Average Payment" 
+			FROM payment;
+			
+			
+-- 25. Find the minimum rental payment rate that isn't free.
+
+			SELECT MIN(amount)
+			FROM payment
+			WHERE amount != 0.00;
+			
+			
+-- 26. What is the maximum rental payment rate?
+
+			SELECT MAX(amount)
+			FROM payment;
+			
+			
+-- 27. What is the combined rental rate for every film?
+
+			SELECT SUM(amount)
+			FROM payment;
+			
+			
+-- 28. For each distinct rental rate, find out how many films are for each rate.
+
+			SELECT COUNT(*) AS "Number of Films", amount
+			FROM payment
+			GROUP BY amount
+			ORDER BY amount ASC;
+			
+			
+-- 29. Which 5 customer IDs are the biggest spender?
+
+			SELECT customer_id AS "Customer", SUM(amount) AS "Total Amount"
+			FROM payment
+			GROUP BY customer_id
+			ORDER BY "Total Amount" DESC
+			LIMIT 5;
+			
+
+-- 30. How many total transactions has each staff member processed? Also give the total amount of money 
+--     That each staff member processed. Include the dollar sign.
+
+			SELECT staff_id, COUNT(*) AS "Total", CONCAT('$', SUM(amount)) AS "Total Money Made"
+			FROM payment
+			GROUP BY staff_id
+			ORDER BY "Total Money Made" DESC;
+			
+			
+-- 31. Find the average replacement cost of films by rating.
+
+			SELECT rating, CONCAT('$', ROUND(AVG(replacement_cost), 2)) AS "Cost to Replace"
+			FROM film
+			GROUP BY rating
+			ORDER BY "Cost to Replace" ASC;
+			
+			
+-- 32. Find the customer IDs of the people who have spent more than $150 total.
+
+			SELECT customer_id, SUM(amount) AS "Total"
+			FROM payment
+			GROUP BY customer_id
+			HAVING SUM(amount) > 150
+            ORDER BY "Total" DESC;
+			
+			
+-- 33. Find all customer IDs that have over 40 transactions.
+
+			SELECT customer_id, COUNT(*)
+			FROM payment
+			GROUP BY customer_id
+			HAVING COUNT(*)>=40
+			ORDER BY COUNT(*) DESC;
+			
+			
+-- 34. What movie ratings have an average rental duration of more than 5 days?
+
+			SELECT rating, ROUND(AVG(rental_duration), 2) AS "Average"
+			FROM film 
+			GROUP BY rating 
+			HAVING AVG(rental_duration) > 5
+			ORDER BY "Average" DESC;
+			
+			
+-- 35. Find the customer IDs who spent $110 or more with staff #2.
+
+			SELECT customer_id, SUM(amount)
+			FROM payment
+			WHERE staff_id = 2
+			GROUP BY customer_id
+            HAVING SUM(amount) >= 110
+            ORDER BY SUM(amount) DESC;
+			
+			
+-- 36. Find the number of films that start with "J."
+
+			SELECT COUNT(title)
+			FROM film
+			WHERE title LIKE 'J%';
+			
+			
+-- 37. Find the customer who has the highest customer ID AND whose name starts with "E" 
+--     AND has an address ID less than 500.	
+
+			SELECT customer_id, CONCAT(first_name, ' ', last_name) AS "Name"
+			FROM customer
+			WHERE first_name LIKE 'E%' AND address_id < 500
+			ORDER BY customer_ID DESC
+			LIMIT 1;
