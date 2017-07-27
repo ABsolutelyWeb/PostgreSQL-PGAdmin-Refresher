@@ -1,5 +1,5 @@
 -- Description:
---	This is basically a refresher of PostgreSQL and PGAdmin (mostly queries). Queries progressively get more
+--	This is basically a refresher on PostgreSQL and PGAdmin (mostly queries). Queries progressively get more
 --  difficult.
 
 -- NOTE: All database(s) and table(s) information / schema is stored in the dvdrental.tar file.
