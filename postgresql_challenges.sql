@@ -397,7 +397,7 @@
 			WHERE e1.id = e2.manager_id AND e1.salary > e2.salary;
  
  
- ---- QUESTIONS 50 to 65 will use a new database called exercises.tar
+ ---- QUESTIONS 50 to 63 will use a new database called exercises.tar
  
  -- 50. Retrieve everything from the cd.facilities table.
  
@@ -448,7 +448,7 @@
 
 			SELECT memid, surname, firstname, joindate
 			FROM cd.members
-			WHERE joindate > '2012-09-01';
+			WHERE joindate >= '2012-09-01';
 			
 			
 -- 57. Print an ordered list of the first 10 surnames in the members table. The list must not contain duplicates.
@@ -471,12 +471,43 @@
 
 			SELECT COUNT(*)
 			FROM cd.facilities
-			WHERE membercost > 10;
+			WHERE guestcost >= 10;
 			
 			
 -- 60. Print a list of the total number of slots booked per facility in the month of September 2012. 
 --     Produce an output table consisting of facility id and slots, sorted by the number of slots.
 
-			SELECT name, slots, starttime 
+			SELECT fac.facid, name, SUM(slots) AS Total
 			FROM cd.facilities AS fac JOIN cd.bookings AS book ON book.facid = fac.facid
-			WHERE starttime BETWEEN '2012-09-01' AND '2012-09-30 23:59:59';
+			WHERE starttime BETWEEN '2012-09-01' AND '2012-09-30 23:59:59'
+            GROUP BY fac.facid
+            ORDER BY Total DESC;
+			
+			
+-- 61. Print a list of facilities with more than 1000 slots booked. Produce an output table consisting 
+--     of facility id and total slots, sorted by facility id.			
+
+			SELECT fac.facid, name, SUM(slots) AS "total"
+			FROM cd.facilities AS fac JOIN cd.bookings AS book ON book.facid = fac.facid
+			GROUP BY fac.facid
+			HAVING SUM(slots) > 1000
+			ORDER BY "total" DESC;
+			
+			
+-- 62. Print a list of the start times for bookings for tennis courts, for the date 
+--    '2012-09-21'? Return a list of start time and facility name pairings, ordered by the time.
+
+			SELECT fac.facid, name, starttime 
+			FROM cd.facilities AS fac JOIN cd.bookings AS book ON fac.facid = book.facid
+			WHERE name LIKE '%Tennis Court%' AND starttime >= '2012-09-21' AND starttime < '2012-09-22'
+			ORDER BY starttime ASC;	
+			
+			
+-- 63. Print a list of the start times for bookings by members named 'David Farrell'?
+			
+			SELECT bookid, starttime, CONCAT(firstname, ' ', surname) AS name
+			FROM cd.members AS mem JOIN cd.bookings AS book ON mem.memid = book.memid
+			WHERE firstname = 'David' AND surname = 'Farrell'
+			ORDER BY starttime ASC;
+			
+			
